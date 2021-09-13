@@ -59,17 +59,8 @@ namespace DiscordMusicBot
             //_lavaConfig = new LavaConfig();
             //_lavaNode = new LavaNode(_client, _lavaConfig);
 
-            //  You can assign your bot token to a string, and pass that in to connect.
-            //  This is, however, insecure, particularly if you plan to have your code hosted in a public repository.
-            var token = "ODg2OTM2OTE5MDI2NTY5MjE2.YT82Xw.DgI3LeyaC3fpUbC8aJXHAl18ZNg";
+             var token = System.IO.File.ReadAllText("token.txt");
 
-            // Some alternative options would be to keep your token in an Environment Variable or a standalone file.
-            // var token = Environment.GetEnvironmentVariable("NameOfYourEnvironmentVariable");
-            // var token = File.ReadAllText("token.txt");
-            // var token = JsonConvert.DeserializeObject<AConfigurationClass>(File.ReadAllText("config.json")).Token;
-
-            await _client.LoginAsync(TokenType.Bot, token);
-            await _client.StartAsync();
 
 
             // Block this task until the program is closed.
