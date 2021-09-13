@@ -113,25 +113,23 @@ namespace DiscordMusicBot
             await _lavalinkManager.LeaveAsync(guildId);
         }
 
+        public static async void Pause(ulong guildId)
+        {
+            await _lavalinkManager.GetPlayer(guildId).PauseAsync();
+        } 
+        public static async void Resume(ulong guildId)
+        {
+            await _lavalinkManager.GetPlayer(guildId).ResumeAsync();
+        }
+
         public static async Task OnTrackEnd(LavalinkPlayer lavalinkPlayer, LavalinkTrack track, string reason)
         {
             Console.WriteLine("Song ended:- " + reason);
             if (reason == "FINISHED")
             {
-                PlayNextSong(lavalinkPlayer);
+                PlayNextSong(lavalinkPlayer.VoiceChannel.GuildId);
             }
-        }
-
-        public static void PlayNextSong(SocketGuildUser user, ulong guild, ISocketMessageChannel channel)
-        {
-            LavalinkTrack trackToPlay = Program.Instance.SongQueues[guild].NextSong();
-            PlaySong(user, trackToPlay, channel);
-        }
-        public static void PlayNextSong(LavalinkPlayer player)
-        {
-            LavalinkTrack trackToPlay = Program.Instance.SongQueues[player.VoiceChannel.GuildId].NextSong();
-            PlaySong(player, trackToPlay);
-        }
+        }    
         public async static void PlayNextSong(ulong guildId, SocketGuildUser user = null)
         {
             LavalinkTrack trackToPlay = Program.Instance.SongQueues[guildId].NextSong();

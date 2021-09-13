@@ -34,9 +34,15 @@ namespace DiscordMusicBot
             CheckForLoop();
             return tracks[pointer];
         }
-        public void RemoveSong(int position)
+        public string RemoveSong(int position)
         {
+            string name = tracks[position].Title;
             tracks.RemoveAt(position);
+            return name;
+        } 
+        public void Clear()
+        {
+            tracks.Clear();
         }
         public LavalinkTrack[] GetAllTracks()
         {

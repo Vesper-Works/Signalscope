@@ -22,7 +22,7 @@ namespace DiscordMusicBot
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             SocketGuildUser user = Context.User as SocketGuildUser;
-            AudioHandler.PlaySong(user, "https://www.youtube.com/watch?v=dQw4w9WgXcQ", Context.Channel);
+            await AudioHandler.AddSongToQueue(user, "https://www.youtube.com/watch?v=dQw4w9WgXcQ", true);
         }
         #endregion
 
@@ -51,7 +51,7 @@ namespace DiscordMusicBot
                 var links = await AudioHandler.GetPlaylistVideosAsync(query);
                 for (int i = 0; i < links.Length; i++)
                 {
-                    if (i == links.Length-1)
+                    if (i == links.Length - 1)
                     {
                         await AudioHandler.AddSongToQueue(user, links[i], true);
                     }
@@ -93,6 +93,34 @@ namespace DiscordMusicBot
 
             await Context.Channel.SendMessageAsync(embed: new EmbedBuilder().CreateQueueEmbed(user).Build());
 
+        }
+        [Command("remove")]
+        [Summary("Removes a song from the queue")]
+        public async Task RemoveSong(int index)
+        {
+            SocketGuildUser user = Context.User as SocketGuildUser;
+            await Context.Channel.SendMessageAsync("Removed " + Program.Instance.SongQueues[Context.Guild.Id].RemoveSong(index - 1));
+            await Context.Channel.SendMessageAsync(embed: new EmbedBuilder().CreateQueueEmbed(user).Build());
+        }
+        [Command("clear")]
+        [Summary("Clears the queue")]
+        public async Task ClearQueue()
+        {
+            Program.Instance.SongQueues[Context.Guild.Id].Clear();
+            await Context.Channel.SendMessageAsync("Cleared! :boom:");
+        }
+
+        [Command("pause")]
+        public async Task Pause()
+        {
+            AudioHandler.Pause(Context.Guild.Id);
+            await Context.Channel.SendMessageAsync("Paused! :pause_button:");
+        }
+        [Command("resume")]
+        public async Task Resume()
+        {
+            AudioHandler.Resume(Context.Guild.Id);
+            await Context.Channel.SendMessageAsync("Resumed! :play_button:");
         }
 
     }
