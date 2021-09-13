@@ -6,7 +6,7 @@ using Discord.Audio;
 using Discord.Commands;
 using Discord.WebSocket;
 using SharpLink;
-//ODg2OTM2OTE5MDI2NTY5MjE2.YT82Xw.DgI3LeyaC3fpUbC8aJXHAl18ZNg
+
 namespace DiscordMusicBot
 {
     class Program
